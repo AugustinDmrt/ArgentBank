@@ -4,6 +4,7 @@ import Login from "../../pages/Login/Login";
 import Profile from "../../pages/Profile/Profile";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import "./App.css";
 
 function App() {
@@ -14,7 +15,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
         </Routes>
         <Footer />
       </Router>
