@@ -8,11 +8,11 @@ module.exports.createUser = async (req, res) => {
     response.status = 200;
     response.message = "User successfully created";
     response.body = responseFromService;
-    const token = jwt.sign(
-      { id: responseFromService.id },
-      process.env.SECRET_KEY
-    );
-    response.header("auth-token", token);
+    // const token = jwt.sign(
+    //   { id: responseFromService.id },
+    //   process.env.SECRET_KEY
+    // );
+    // response.header("auth-token", token);
   } catch (error) {
     console.error("Something went wrong in userController.js", error);
     response.status = 400;
@@ -30,11 +30,11 @@ module.exports.loginUser = async (req, res) => {
     response.status = 200;
     response.message = "User successfully logged in";
     response.body = responseFromService;
-    const token = jwt.sign(
-      { id: responseFromService.id },
-      process.env.SECRET_KEY
-    );
-    response.header("auth-token", token);
+    // const token = jwt.sign(
+    //   { id: responseFromService.id },
+    //   process.env.SECRET_KEY
+    // );
+    // response.header("auth-token", token);
   } catch (error) {
     console.error("Error in loginUser (userController.js)");
     response.status = 400;
