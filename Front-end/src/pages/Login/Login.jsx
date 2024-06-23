@@ -1,49 +1,25 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../features/auth/authSlice";
 import "./Login.sass";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.auth);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    const loginData = {
-      email,
-      password,
-      rememberMe,
-    };
-
-    try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        if (rememberMe) {
-          localStorage.setItem("auth-token", result.body.token);
-        } else {
-          sessionStorage.setItem("auth-token", result.body.token);
-        }
+    dispatch(login({ email, password, rememberMe }))
+      .unwrap()
+      .then(() => {
         navigate("/profile");
-      } else {
-        setError(result.message);
-        console.error("Login failed:", result.message);
-      }
-    } catch (error) {
-      setError("An error occurred during login. Please try again.");
-      console.error("Error during login:", error);
-    }
+      })
+      .catch(() => {});
   };
 
   return (
@@ -82,8 +58,8 @@ const Login = () => {
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button type="submit" className="sign-in-button">
-            Sign In
+          <button type="submit" className="sign-in-button" disabled={loading}>
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
       </section>
