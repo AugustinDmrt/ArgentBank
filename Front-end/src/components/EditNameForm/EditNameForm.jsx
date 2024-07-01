@@ -6,6 +6,8 @@ import "./EditNameForm.sass";
 const EditNameForm = () => {
   const dispatch = useDispatch();
   const name = useSelector((state) => state.profile.name);
+  const token = useSelector((state) => state.auth.token); // Assurez-vous de récupérer le jeton
+  const userId = useSelector((state) => state.auth.userId); // Assurez-vous de récupérer l'ID utilisateur
   const [newName, setNewName] = useState(name);
 
   const handleChange = (e) => {
@@ -17,7 +19,7 @@ const EditNameForm = () => {
   };
 
   const handleSaveClick = () => {
-    dispatch(saveName(newName));
+    dispatch(saveName({ ...newName, userId, token }));
   };
 
   const handleCancelClick = () => {

@@ -1,13 +1,24 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../../components/Account/Account";
 import EditNameForm from "../../components/EditNameForm/EditNameForm";
-import { editName } from "../../features/profile/profileSlice";
+import {
+  editName,
+  fetchUserProfile,
+} from "../../features/profile/profileSlice";
 import "./Profile.sass";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const isEditing = useSelector((state) => state.profile.isEditing);
   const name = useSelector((state) => state.profile.name);
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUserProfile(token));
+    }
+  }, [dispatch, token]);
 
   const handleEditClick = () => {
     dispatch(editName());

@@ -8,7 +8,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
-  const userName = "Tony";
+  const firstName = useSelector((state) => state.profile.name.firstName);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -30,7 +30,7 @@ const Header = () => {
           <>
             <a className="main-nav-item" href="./user.html">
               <i className="fa fa-user-circle"></i>
-              {userName}
+              {firstName}
             </a>
             <a className="main-nav-item" href="#" onClick={handleLogout}>
               <i className="fa fa-sign-out"></i>
