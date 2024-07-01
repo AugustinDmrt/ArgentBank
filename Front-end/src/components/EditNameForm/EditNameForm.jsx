@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { cancelEdit, saveName } from "../../features/profile/profileSlice";
 import "./EditNameForm.sass";
 
-const EditNameForm = ({ initialName, onSave, onCancel }) => {
-  const [newName, setNewName] = useState(initialName);
+const EditNameForm = () => {
+  const dispatch = useDispatch();
+  const name = useSelector((state) => state.profile.name);
+  const [newName, setNewName] = useState(name);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,7 +17,11 @@ const EditNameForm = ({ initialName, onSave, onCancel }) => {
   };
 
   const handleSaveClick = () => {
-    onSave(newName);
+    dispatch(saveName(newName));
+  };
+
+  const handleCancelClick = () => {
+    dispatch(cancelEdit());
   };
 
   return (
@@ -34,7 +42,7 @@ const EditNameForm = ({ initialName, onSave, onCancel }) => {
         <button className="save-button" onClick={handleSaveClick}>
           Save
         </button>
-        <button className="cancel-button" onClick={onCancel}>
+        <button className="cancel-button" onClick={handleCancelClick}>
           Cancel
         </button>
       </div>

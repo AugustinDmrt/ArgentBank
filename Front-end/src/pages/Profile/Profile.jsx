@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Account from "../../components/Account/Account";
 import EditNameForm from "../../components/EditNameForm/EditNameForm";
+import { editName } from "../../features/profile/profileSlice";
 import "./Profile.sass";
 
 const Profile = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState({ firstName: "Tony", lastName: "Jarvis" });
+  const dispatch = useDispatch();
+  const isEditing = useSelector((state) => state.profile.isEditing);
+  const name = useSelector((state) => state.profile.name);
 
   const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleSave = (newName) => {
-    setName(newName);
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
+    dispatch(editName());
   };
 
   return (
@@ -29,11 +22,7 @@ const Profile = () => {
           {name.firstName} {name.lastName}!
         </h1>
         {isEditing ? (
-          <EditNameForm
-            initialName={name}
-            onSave={handleSave}
-            onCancel={handleCancel}
-          />
+          <EditNameForm />
         ) : (
           <button className="edit-button" onClick={handleEditClick}>
             Edit Name
